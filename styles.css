@@ -55,6 +55,29 @@ video {
     background-color: #95a5a6;
     cursor: not-allowed;
 }
+.scanner-controls {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+#switchCamera {
+    background-color: #6ECCAF;
+}
+
+#switchCamera:hover {
+    background-color: #5ABF9D;
+}
+
+video {
+    object-fit: cover; /* Maintain aspect ratio */
+    transform: scaleX(-1); /* Mirror selfie camera */
+}
+
+video.environment {
+    transform: none; /* Remove mirror for rear camera */
+}
 
 .result-container {
     background-color: #fff;

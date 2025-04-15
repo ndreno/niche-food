@@ -8,6 +8,9 @@ const productInfoElement = document.getElementById('productInfo');
 const qualityScoreElement = document.getElementById('qualityScore');
 const qualityDetailsElement = document.getElementById('qualityDetails');
 const loadingElement = document.getElementById('loading');
+let currentDeviceId = null;
+let facingMode = "environment"; // Default to rear camera
+let videoDevices = [];
 
 // Initialize barcode scanner
 const codeReader = new ZXing.BrowserMultiFormatReader();
@@ -23,34 +26,78 @@ stopButton.addEventListener('click', () => {
     stopScanner();
 });
 
+document.getElementById('switchCamera').addEventListener('click', switchCamera);
+
+async function switchCamera() {
+    if (!scannerActive || videoDevices.length < 2) return;
+
+    // Stop current stream
+    codeReader.reset();
+
+    // Toggle facing mode
+    facingMode = facingMode === "environment" ? "user" : "environment";
+
+    // Find next camera
+    const currentIndex = videoDevices.findIndex(device => device.deviceId === currentDeviceId);
+    const nextIndex = (currentIndex + 1) % videoDevices.length;
+    currentDeviceId = videoDevices[nextIndex].deviceId;
+
+    // Update video class
+    if (facingMode === "environment") {
+        scannerElement.classList.remove('user');
+        scannerElement.classList.add('environment');
+    } else {
+        scannerElement.classList.remove('environment');
+        scannerElement.classList.add('user');
+    }
+
+    await startScanner();
+}
+
 async function startScanner() {
     try {
         scannerActive = true;
         startButton.disabled = true;
         stopButton.disabled = false;
+        switchCamera.disabled = false;
         resultContainer.style.display = 'none';
 
-        const devices = await codeReader.listVideoInputDevices();
-        const deviceId = devices.length > 1 ? devices[1].deviceId : devices[0].deviceId;
+        // Get all video devices
+        videoDevices = await codeReader.listVideoInputDevices();
 
-        await codeReader.decodeFromVideoDevice(deviceId, scannerElement, (result, error) => {
-            if (result && scannerActive) {
-                console.log('Barcode detected:', result.text);
-                stopScanner();
-                fetchProductData(result.text);
+        // Try to find rear camera first
+        currentDeviceId = findPreferredCamera();
+
+        await codeReader.decodeFromVideoDevice(
+            currentDeviceId,
+            scannerElement,
+            (result, error) => {
+                if (result && scannerActive) {
+                    stopScanner();
+                    fetchProductData(result.text);
+                }
+                if (error && !(error instanceof ZXing.NotFoundException)) {
+                    console.error(error);
+                }
             }
+        );
 
-            if (error && !(error instanceof ZXing.NotFoundException)) {
-                console.error('Scanner error:', error);
-            }
-        });
-
-        console.log('Scanner started');
     } catch (error) {
-        console.error('Error starting scanner:', error);
-        alert('Error starting scanner. Please ensure camera access is allowed.');
+        console.error(error);
+        alert('Camera error: ' + error.message);
         stopScanner();
     }
+}
+
+function findPreferredCamera() {
+    // Try to find rear camera (environment-facing)
+    const rearCamera = videoDevices.find(device =>
+        device.label.toLowerCase().includes('back') ||
+        device.label.toLowerCase().includes('rear') ||
+        (device.getCapabilities && device.getCapabilities().facingMode === 'environment')
+    );
+
+    return rearCamera?.deviceId || videoDevices[0]?.deviceId;
 }
 
 function stopScanner() {
