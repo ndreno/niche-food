@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Food Quality Scanner</title>
+    <meta name="description" content="Scan pet food barcodes to assess quality">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="favicon.ico">
+</head>
+<body>
+<div class="container">
+    <h1>Pet Food Quality Scanner</h1>
+
+    <div class="scanner-container">
+        <video id="scanner" playsinline></video>
+        <canvas id="canvas" style="display: none;"></canvas>
+        <button id="startButton" class="btn">Start Scanner</button>
+        <button id="stopButton" class="btn" disabled>Stop Scanner</button>
+    </div>
+
+    <div class="result-container" id="resultContainer" style="display: none;">
+        <h2>Product Information</h2>
+        <div id="productInfo"></div>
+
+        <div class="quality-assessment">
+            <h2>Quality Assessment</h2>
+            <div id="qualityScore"></div>
+            <div id="qualityDetails"></div>
+        </div>
+    </div>
+
+    <div class="loading" id="loading" style="display: none;">
+        <div class="spinner"></div>
+        <p>Analyzing product...</p>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@zxing/library@0.21.3"></script>
+<script src="script.js"></script>
+</body>
+</html>

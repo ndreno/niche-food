@@ -1,0 +1,21 @@
+{
+    "name": "Pet Food Quality, Decoded.",
+    "short_name": "NicheFood",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#f5f5f5",
+    "theme_color": "#3498db",
+    "description": "Scan pet food barcodes to assess quality",
+    "icons": [
+        {
+            "src": "icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
