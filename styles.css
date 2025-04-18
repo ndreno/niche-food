@@ -1,31 +1,39 @@
+/* ===== Base Styles ===== */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f5f5f5;
     color: #333;
+    min-height: 100vh;
 }
 
 .container {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
+    box-sizing: border-box;
 }
 
 h1 {
     text-align: center;
     color: #2c3e50;
+    margin-bottom: 1.5rem;
 }
 
+/* ===== Scanner Container ===== */
 .scanner-container {
+    position: relative;
     background-color: #fff;
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
     text-align: center;
+    overflow: hidden;
 }
 
+/* ===== Video Preview ===== */
 video {
     width: 100%;
     max-width: 500px;
@@ -33,6 +41,63 @@ video {
     border-radius: 4px;
     margin-bottom: 15px;
     background-color: #000;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+    /* Mobile-optimized video */
+    object-fit: contain !important;
+    transform: none !important;
+}
+
+video.user {
+    transform: scaleX(-1); /* Only mirror for front camera */
+}
+
+/* ===== Scanner Guidance ===== */
+.scanner-guide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.guide-frame {
+    width: 70%;
+    height: 40%;
+    border: 2px solid rgba(0, 255, 0, 0.5);
+    border-radius: 8px;
+    position: relative;
+}
+
+.scan-animation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: rgba(0, 255, 0, 0.7);
+    animation: scan 2s infinite linear;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.7);
+}
+
+@keyframes scan {
+    0% { top: 0%; }
+    100% { top: 100%; }
+}
+
+/* ===== Buttons ===== */
+.scanner-controls {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 15px;
+    flex-wrap: wrap;
 }
 
 .btn {
@@ -44,46 +109,36 @@ video {
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
-    transition: background-color 0.3s;
+    transition: all 0.3s ease;
+    min-width: 120px;
 }
 
 .btn:hover {
     background-color: #2980b9;
+    transform: translateY(-2px);
 }
 
 .btn:disabled {
     background-color: #95a5a6;
     cursor: not-allowed;
-}
-.scanner-controls {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    margin-top: 15px;
+    transform: none !important;
 }
 
 #switchCamera {
     background-color: #6ECCAF;
 }
 
-#switchCamera:hover {
+#switchCamera:hover:not(:disabled) {
     background-color: #5ABF9D;
 }
 
-video {
-    object-fit: cover; /* Maintain aspect ratio */
-    transform: scaleX(-1); /* Mirror selfie camera */
-}
-
-video.environment {
-    transform: none; /* Remove mirror for rear camera */
-}
-
+/* ===== Results ===== */
 .result-container {
     background-color: #fff;
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
 }
 
 .quality-assessment {
@@ -102,6 +157,7 @@ video.environment {
     line-height: 1.6;
 }
 
+/* ===== Loading State ===== */
 .loading {
     text-align: center;
     margin-top: 20px;
@@ -117,19 +173,36 @@ video.environment {
     margin: 0 auto 15px;
 }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* Responsive design */
+/* ===== Responsive Design ===== */
 @media (max-width: 600px) {
     .container {
         padding: 10px;
     }
 
     .btn {
-        padding: 8px 16px;
+        padding: 10px 15px;
         font-size: 14px;
+        min-width: 100px;
+    }
+
+    video {
+        max-height: 50vh;
+    }
+
+    .guide-frame {
+        width: 85%;
+        height: 30%;
+    }
+}
+
+@media (max-width: 400px) {
+    .scanner-controls {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .btn {
+        width: 100%;
+        max-width: 200px;
     }
 }

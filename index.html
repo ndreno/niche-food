@@ -3,46 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pet Food Quality Scanner</title>
-    <meta name="description" content="Scan pet food barcodes to assess quality">
+    <title>NicheFood - Pet Food Quality Scanner</title>
+    <meta name="description" content="Scan pet food barcodes to assess quality and ingredients">
+
+    <!-- PWA Metadata -->
+    <meta name="theme-color" content="#3498db">
     <link rel="manifest" href="./manifest.json">
     <link rel="stylesheet" href="./styles.css">
+
+    <!-- Favicon (PNG fallback only) -->
     <link rel="icon" href="./favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
-    <link rel="manifest" href="./site.webmanifest">
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png">
+
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://unpkg.com/@zxing/library@latest" as="script">
+    <link rel="preload" href="./script.js" as="script">
 </head>
 <body>
 <div class="container">
-    <h1>Pet Food Quality Scanner</h1>
+    <header>
+        <h1>NicheFood</h1>
+        <p class="tagline">Smart scans for healthier pets</p>
+    </header>
 
-    <div class="scanner-container">
-        <video id="scanner" playsinline></video>
-        <canvas id="canvas" style="display: none;"></canvas>
-        <button id="startButton" class="btn">Start Scanner</button>
-        <button id="stopButton" class="btn" disabled>Stop Scanner</button>
-        <button id="switchCamera" class="btn" disabled>Switch Camera</button>
-    </div>
+    <main>
+        <div class="scanner-container">
+            <video id="scanner" playsinline></video>
+            <div class="scanner-guide">
+                <div class="guide-frame">
+                    <div class="scan-animation"></div>
+                </div>
+            </div>
+            <canvas id="canvas" aria-hidden="true" style="display: none;"></canvas>
 
-    <div class="result-container" id="resultContainer" style="display: none;">
-        <h2>Product Information</h2>
-        <div id="productInfo"></div>
-
-        <div class="quality-assessment">
-            <h2>Quality Assessment</h2>
-            <div id="qualityScore"></div>
-            <div id="qualityDetails"></div>
+            <div class="scanner-controls">
+                <button id="startButton" class="btn">
+                    📷 Start Scanner
+                </button>
+                <button id="stopButton" class="btn" disabled>
+                    ⏹️ Stop
+                </button>
+                <button id="switchCamera" class="btn" disabled>
+                    🔄 Switch
+                </button>
+            </div>
         </div>
-    </div>
 
-    <div class="loading" id="loading" style="display: none;">
-        <div class="spinner"></div>
-        <p>Analyzing product...</p>
-    </div>
+        <div class="result-container" id="resultContainer" hidden>
+            <section>
+                <h2>Product Information</h2>
+                <div id="productInfo" class="product-details"></div>
+            </section>
+
+            <section class="quality-assessment">
+                <h2>Quality Assessment</h2>
+                <div id="qualityScore" class="score-display"></div>
+                <div id="qualityDetails" class="details-list"></div>
+            </section>
+        </div>
+
+        <div class="loading" id="loading" hidden>
+            <div class="spinner" aria-hidden="true"></div>
+            <p>Analyzing product...</p>
+        </div>
+    </main>
+
+    <footer class="app-footer">
+        <p>Data provided by <a href="https://world.openfoodfacts.org/" target="_blank" rel="noopener">OpenFoodFacts</a></p>
+    </footer>
 </div>
 
 <script src="https://unpkg.com/@zxing/library@latest"></script>
-<script src="./script.js"></script>
+<script src="./script.js" defer></script>
 </body>
 </html>
