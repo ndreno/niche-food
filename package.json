@@ -1,0 +1,29 @@
+{
+  "name": "niche-food",
+  "version": "1.0.0",
+  "description": "Smart scans for healthier pets - A PWA for analyzing pet food quality",
+  "main": "script.js",
+  "scripts": {
+    "lint": "eslint *.js",
+    "lint:fix": "eslint *.js --fix",
+    "format": "prettier --write *.js *.css *.html *.json *.md",
+    "format:check": "prettier --check *.js *.css *.html *.json *.md",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "serve": "npx serve"
+  },
+  "keywords": [
+    "pet-food",
+    "barcode-scanner",
+    "pwa",
+    "pet-health"
+  ],
+  "author": "Nicolas Dreno",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "prettier": "^3.2.5",
+    "vitest": "^1.6.0"
+  }
+}

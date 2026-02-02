@@ -1,79 +1,207 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NicheFood - Pet Food Quality Scanner</title>
-    <meta name="description" content="Scan pet food barcodes to assess quality and ingredients">
+    <meta name="description" content="Scan pet food barcodes to assess quality and ingredients" />
 
     <!-- PWA Metadata -->
-    <meta name="theme-color" content="#3498db">
-    <link rel="manifest" href="./manifest.json">
-    <link rel="stylesheet" href="./styles.css">
+    <meta name="theme-color" content="#3498db" />
+    <link rel="manifest" href="./manifest.json" />
+    <link rel="stylesheet" href="./styles.css" />
 
     <!-- Favicon (PNG fallback only) -->
-    <link rel="icon" href="./favicon.ico">
-    <link rel="apple-touch-icon" href="./apple-touch-icon.png">
+    <link rel="icon" href="./favicon.ico" />
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
 
     <!-- Preload critical resources -->
-    <link rel="preload" href="https://unpkg.com/@zxing/library@latest" as="script">
-    <link rel="preload" href="./script.js" as="script">
-</head>
-<body>
-<div class="container">
-    <header>
-        <h1>NicheFood</h1>
-        <p class="tagline">Smart scans for healthier pets</p>
-    </header>
+    <link rel="preload" href="https://unpkg.com/@zxing/library@latest" as="script" />
+    <link rel="preload" href="./script.js" as="script" />
+  </head>
+  <body>
+    <!-- Onboarding Modal -->
+    <div id="onboardingModal" class="onboarding-overlay" hidden>
+      <div class="onboarding-modal">
+        <div class="onboarding-slides">
+          <!-- Slide 1: Welcome -->
+          <div class="onboarding-slide active" data-slide="0">
+            <div class="onboarding-icon">🐾</div>
+            <h2>Welcome to NicheFood!</h2>
+            <p>Your smart companion for choosing the best food for your pets.</p>
+          </div>
 
-    <main>
-        <div class="scanner-container">
-            <video id="scanner" playsinline></video>
-            <div class="scanner-guide">
-                <div class="guide-frame">
-                    <div class="scan-animation"></div>
-                </div>
-            </div>
-            <canvas id="canvas" aria-hidden="true" style="display: none;"></canvas>
+          <!-- Slide 2: Scan -->
+          <div class="onboarding-slide" data-slide="1">
+            <div class="onboarding-icon">📷</div>
+            <h2>Scan Any Pet Food</h2>
+            <p>Point your camera at a barcode to instantly analyze ingredients and get a quality score.</p>
+          </div>
 
-            <div class="scanner-controls">
-                <button id="startButton" class="btn">
-                    📷 Start Scanner
-                </button>
-                <button id="stopButton" class="btn" disabled>
-                    ⏹️ Stop
-                </button>
-                <button id="switchCamera" class="btn" disabled>
-                    🔄 Switch
-                </button>
-            </div>
+          <!-- Slide 3: Pet Profiles -->
+          <div class="onboarding-slide" data-slide="2">
+            <div class="onboarding-icon">🐱🐕</div>
+            <h2>Add Your Pets</h2>
+            <p>Create profiles for your pets to get personalized allergen warnings and species-specific analysis.</p>
+          </div>
+
+          <!-- Slide 4: Get Started -->
+          <div class="onboarding-slide" data-slide="3">
+            <div class="onboarding-icon">✨</div>
+            <h2>You're All Set!</h2>
+            <p>Start scanning to discover what's really in your pet's food.</p>
+          </div>
         </div>
 
-        <div class="result-container" id="resultContainer" hidden>
+        <div class="onboarding-dots">
+          <span class="dot active" data-slide="0"></span>
+          <span class="dot" data-slide="1"></span>
+          <span class="dot" data-slide="2"></span>
+          <span class="dot" data-slide="3"></span>
+        </div>
+
+        <div class="onboarding-actions">
+          <button id="onboardingSkip" class="btn btn-secondary">Skip</button>
+          <button id="onboardingNext" class="btn">Next</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <header>
+        <h1>NicheFood</h1>
+        <p class="tagline">Smart scans for healthier pets</p>
+      </header>
+
+      <nav class="tab-nav">
+        <button class="tab-btn active" data-tab="scanner">📷 Scan</button>
+        <button class="tab-btn" data-tab="history">📋 History</button>
+        <button class="tab-btn" data-tab="settings">⚙️ Settings</button>
+      </nav>
+
+      <main>
+        <!-- Scanner Tab -->
+        <div class="tab-content active" id="scannerTab">
+          <div class="scanner-container">
+            <div class="video-wrapper">
+              <video id="scanner" playsinline></video>
+              <div class="scanner-guide">
+                <div class="guide-frame">
+                  <div class="scan-animation paused"></div>
+                </div>
+              </div>
+            </div>
+            <canvas id="canvas" aria-hidden="true" style="display: none"></canvas>
+
+            <div class="scanner-controls">
+              <button id="startButton" class="btn">📷 Start Scanner</button>
+              <button id="stopButton" class="btn" disabled>⏹️ Stop</button>
+              <button id="switchCamera" class="btn" disabled>🔄 Switch</button>
+            </div>
+          </div>
+
+          <div class="result-container" id="resultContainer" hidden>
             <section>
-                <h2>Product Information</h2>
-                <div id="productInfo" class="product-details"></div>
+              <h2>Product Information</h2>
+              <div id="productInfo" class="product-details"></div>
             </section>
 
             <section class="quality-assessment">
-                <h2>Quality Assessment</h2>
-                <div id="qualityScore" class="score-display"></div>
-                <div id="qualityDetails" class="details-list"></div>
+              <h2>Quality Assessment</h2>
+              <div id="qualityScore" class="score-display"></div>
+              <div id="qualityDetails" class="details-list"></div>
             </section>
+          </div>
+
+          <div class="loading" id="loading" hidden>
+            <div class="skeleton-container">
+              <!-- Product Info Skeleton -->
+              <div class="skeleton-section">
+                <div class="skeleton-header">
+                  <div class="skeleton skeleton-title"></div>
+                  <div class="skeleton skeleton-image"></div>
+                </div>
+                <div class="skeleton skeleton-text"></div>
+                <div class="skeleton skeleton-text short"></div>
+                <div class="skeleton skeleton-text"></div>
+              </div>
+
+              <!-- Quality Assessment Skeleton -->
+              <div class="skeleton-section">
+                <div class="skeleton skeleton-score"></div>
+                <div class="skeleton skeleton-text"></div>
+                <div class="skeleton skeleton-text short"></div>
+                <div class="skeleton skeleton-text"></div>
+              </div>
+            </div>
+            <p class="loading-text">Analyzing product...</p>
+          </div>
         </div>
 
-        <div class="loading" id="loading" hidden>
-            <div class="spinner" aria-hidden="true"></div>
-            <p>Analyzing product...</p>
+        <!-- History Tab -->
+        <div class="tab-content" id="historyTab" hidden>
+          <section class="history-section">
+            <h2>Scan History</h2>
+            <div id="historyList" class="history-list">
+              <p class="empty-state">No scans yet. Start scanning to build your history!</p>
+            </div>
+          </section>
         </div>
-    </main>
 
-    <footer class="app-footer">
-        <p>Data provided by <a href="https://world.openfoodfacts.org/" target="_blank" rel="noopener">OpenFoodFacts</a></p>
-    </footer>
-</div>
+        <!-- Settings Tab -->
+        <div class="tab-content" id="settingsTab" hidden>
+          <section class="settings-section">
+            <h2>Settings</h2>
 
-<script src="https://unpkg.com/@zxing/library@latest"></script>
-<script src="./script.js" defer></script>
-</body>
+            <div class="settings-group">
+              <h3>My Pets</h3>
+              <div id="petsList" class="pets-list">
+                <p class="empty-state">No pets added yet.</p>
+              </div>
+              <button id="addPetBtn" class="btn btn-secondary">+ Add Pet</button>
+            </div>
+
+            <div class="settings-group">
+              <h3 data-i18n="preferences">Preferences</h3>
+              <label class="setting-item">
+                <span data-i18n="language">Language</span>
+                <select id="languageSelect" class="language-select">
+                  <option value="en">English</option>
+                  <option value="fr">Français</option>
+                  <option value="es">Español</option>
+                  <option value="de">Deutsch</option>
+                </select>
+              </label>
+              <label class="setting-item">
+                <span data-i18n="darkMode">Dark Mode</span>
+                <input type="checkbox" id="darkModeToggle" />
+              </label>
+              <label class="setting-item">
+                <span data-i18n="vibrationFeedback">Vibration Feedback</span>
+                <input type="checkbox" id="vibrationToggle" checked />
+              </label>
+            </div>
+
+            <div class="settings-group">
+              <h3>Data</h3>
+              <button id="exportDataBtn" class="btn btn-secondary">Export Data</button>
+              <button id="clearHistoryBtn" class="btn btn-danger">Clear History</button>
+            </div>
+          </section>
+        </div>
+      </main>
+
+      <footer class="app-footer">
+        <p>
+          Data provided by
+          <a href="https://world.openfoodfacts.org/" target="_blank" rel="noopener"
+            >OpenFoodFacts</a
+          >
+        </p>
+      </footer>
+    </div>
+
+    <script src="https://unpkg.com/@zxing/library@latest"></script>
+    <script type="module" src="./script.js"></script>
+  </body>
 </html>

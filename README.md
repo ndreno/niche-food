@@ -9,7 +9,7 @@ A Progressive Web App (PWA) that scans pet food barcodes, analyzes ingredients, 
 **🌍 Bilingual Friendly (TODO)** | **📱 Mobile Optimized** | **🔍 Privacy-Focused**
 
 👉 [Live Demo](https://ndreno.github.io/nichefood)  
-📸 *Screenshot below!*
+📸 _Screenshot below!_
 
 ---
 
@@ -35,7 +35,7 @@ A Progressive Web App (PWA) that scans pet food barcodes, analyzes ingredients, 
 ## Screenshots
 
 | Scanner                                                                      | Results                                                                          | Offline                                                                          |
-|------------------------------------------------------------------------------|----------------------------------------------------------------------------------|----------------------------------------------------------------------------------|
+| ---------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
 | ![Scanner](https://via.placeholder.com/300x500/4A6FA5/FFFFFF?text=Scan+Mode) | ![Results](https://via.placeholder.com/300x500/6ECCAF/000000?text=Quality+86%25) | ![Offline](https://via.placeholder.com/300x500/FF9F1C/FFFFFF?text=Offline+Ready) |
 
 ---
@@ -52,10 +52,12 @@ A Progressive Web App (PWA) that scans pet food barcodes, analyzes ingredients, 
 ## Getting Started
 
 ### Prerequisites
+
 - Modern browser (Chrome/Firefox/Safari)
 - GitHub Pages (for deployment)
 
 ### Installation
+
 ```bash
 git clone https://github.com/ndreno/nichefood.git
 cd nichefood
@@ -63,7 +65,9 @@ cd nichefood
 ```
 
 ### Customizing Rules
+
 Edit the `assessPetFoodQuality()` function in [`script.js`](script.js) to tweak scoring logic:
+
 ```javascript
 // Example: Add points for organic ingredients
 if (product.labels.includes('organic')) {
@@ -82,7 +86,7 @@ if (product.labels.includes('organic')) {
 4. Push to the branch (`git push origin feature/your-feature`)
 5. Open a **Pull Request**
 
-*See [CONTRIBUTING.md](CONTRIBUTING.md) for details.*
+_See [CONTRIBUTING.md](CONTRIBUTING.md) for details._
 
 ---
 
