@@ -1,0 +1,71 @@
+name: Release Android APK
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build web assets
+        run: npm run build:web
+
+      - name: Sync Capacitor
+        run: npx cap sync android
+
+      - name: Build APK
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Get version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Rename APK
+        run: |
+          mv android/app/build/outputs/apk/debug/app-debug.apk \
+             android/app/build/outputs/apk/debug/NicheFood-${{ steps.version.outputs.VERSION }}.apk
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: android/app/build/outputs/apk/debug/NicheFood-${{ steps.version.outputs.VERSION }}.apk
+          generate_release_notes: true
+          body: |
+            ## Download
+
+            📱 **Android APK**: Download `NicheFood-${{ steps.version.outputs.VERSION }}.apk` below
+
+            ### Installation
+            1. Download the APK file
+            2. On your Android device, enable "Install from unknown sources" in Settings
+            3. Open the APK file to install
+
+            ---
+
+            🌐 **Web version**: https://nicolasdreno.github.io/niche-food/
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

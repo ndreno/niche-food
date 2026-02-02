@@ -11,7 +11,11 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "serve": "npx serve"
+    "serve": "npx serve",
+    "build:web": "rm -rf www && mkdir -p www && cp -r index.html styles.css script.js scoring.js storage.js i18n.js sw.js manifest.json favicon.ico *.png www/ 2>/dev/null || true",
+    "android:sync": "npm run build:web && npx cap sync android",
+    "android:open": "npx cap open android",
+    "android:build": "npm run android:sync && cd android && ./gradlew assembleDebug"
   },
   "keywords": [
     "pet-food",
@@ -25,5 +29,10 @@
     "eslint": "^8.57.0",
     "prettier": "^3.2.5",
     "vitest": "^1.6.0"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.0.2",
+    "@capacitor/cli": "^8.0.2",
+    "@capacitor/core": "^8.0.2"
   }
 }
