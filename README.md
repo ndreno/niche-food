@@ -1,14 +1,14 @@
 # NicheFood 🐾
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/yourusername/nichefood/pulls)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/ndreno/niche-food/pulls)
 ![PWA Ready](https://img.shields.io/badge/PWA-Ready-blueviolet)
 
 A Progressive Web App (PWA) that scans pet food barcodes, analyzes ingredients, and assesses quality using OpenFoodFacts API. Works offline and installable on any device!
 
 **🌍 Bilingual Friendly (TODO)** | **📱 Mobile Optimized** | **🔍 Privacy-Focused**
 
-👉 [Live Demo](https://ndreno.github.io/nichefood)  
+👉 [Live Demo](https://ndreno.github.io/niche-food/)  
 📸 _Screenshot below!_
 
 ---
@@ -59,8 +59,8 @@ A Progressive Web App (PWA) that scans pet food barcodes, analyzes ingredients, 
 ### Installation
 
 ```bash
-git clone https://github.com/ndreno/nichefood.git
-cd nichefood
+git clone https://github.com/ndreno/niche-food.git
+cd niche-food
 # Open index.html in your browser!
 ```
 
