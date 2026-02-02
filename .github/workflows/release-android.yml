@@ -69,6 +69,6 @@ jobs:
 
             ---
 
-            🌐 **Web version**: https://nicolasdreno.github.io/niche-food/
+            🌐 **Web version**: https://ndreno.github.io/niche-food/
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
