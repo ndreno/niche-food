@@ -86,9 +86,11 @@ const translations = {
     onboardingWelcomeTitle: 'Welcome to NicheFood!',
     onboardingWelcomeText: 'Your smart companion for choosing the best food for your pets.',
     onboardingScanTitle: 'Scan Any Pet Food',
-    onboardingScanText: 'Point your camera at a barcode to instantly analyze ingredients and get a quality score.',
+    onboardingScanText:
+      'Point your camera at a barcode to instantly analyze ingredients and get a quality score.',
     onboardingPetsTitle: 'Add Your Pets',
-    onboardingPetsText: 'Create profiles for your pets to get personalized allergen warnings and species-specific analysis.',
+    onboardingPetsText:
+      'Create profiles for your pets to get personalized allergen warnings and species-specific analysis.',
     onboardingReadyTitle: "You're All Set!",
     onboardingReadyText: "Start scanning to discover what's really in your pet's food.",
     skip: 'Skip',
@@ -184,7 +186,8 @@ const translations = {
     sectionConcerns: 'Points de vigilance',
     sectionAllergyAlert: 'Alerte allergie',
     sectionContainsAllergens: 'Contient des allergènes courants',
-    noQualityIndicators: 'Aucun indicateur de qualité spécifique trouvé dans la liste des ingrédients.',
+    noQualityIndicators:
+      'Aucun indicateur de qualité spécifique trouvé dans la liste des ingrédients.',
 
     // Life stages
     lifeStagePuppy: 'Chiot',
@@ -221,13 +224,17 @@ const translations = {
 
     // Onboarding
     onboardingWelcomeTitle: 'Bienvenue sur NicheFood !',
-    onboardingWelcomeText: 'Votre compagnon intelligent pour choisir la meilleure nourriture pour vos animaux.',
+    onboardingWelcomeText:
+      'Votre compagnon intelligent pour choisir la meilleure nourriture pour vos animaux.',
     onboardingScanTitle: 'Scannez toute nourriture',
-    onboardingScanText: "Pointez votre caméra vers un code-barres pour analyser instantanément les ingrédients et obtenir un score de qualité.",
+    onboardingScanText:
+      'Pointez votre caméra vers un code-barres pour analyser instantanément les ingrédients et obtenir un score de qualité.',
     onboardingPetsTitle: 'Ajoutez vos animaux',
-    onboardingPetsText: "Créez des profils pour vos animaux afin d'obtenir des alertes allergènes personnalisées.",
+    onboardingPetsText:
+      "Créez des profils pour vos animaux afin d'obtenir des alertes allergènes personnalisées.",
     onboardingReadyTitle: 'Vous êtes prêt !',
-    onboardingReadyText: 'Commencez à scanner pour découvrir ce que contient vraiment la nourriture de votre animal.',
+    onboardingReadyText:
+      'Commencez à scanner pour découvrir ce que contient vraiment la nourriture de votre animal.',
     skip: 'Passer',
     next: 'Suivant',
     getStarted: 'Commencer',
@@ -235,10 +242,11 @@ const translations = {
     // Errors
     errorCameraTitle: 'Erreur caméra',
     errorPermissionTitle: 'Accès caméra refusé',
-    errorPermissionMessage: "NicheFood a besoin d'accéder à la caméra pour scanner les codes-barres.",
+    errorPermissionMessage:
+      "NicheFood a besoin d'accéder à la caméra pour scanner les codes-barres.",
     errorNoCameraTitle: 'Aucune caméra trouvée',
     errorNoCameraMessage: 'Impossible de détecter une caméra sur cet appareil.',
-    errorInUseTitle: 'Caméra en cours d\'utilisation',
+    errorInUseTitle: "Caméra en cours d'utilisation",
     errorInUseMessage: 'La caméra est utilisée par une autre application.',
     errorNotFoundTitle: 'Produit non trouvé',
     errorNotFoundMessage: "Ce produit n'est pas dans la base de données OpenFoodFacts.",
@@ -272,7 +280,7 @@ const translations = {
     suggestionBarcodeVisible: 'Vérifiez que le code-barres est bien visible',
 
     // Not pet food
-    notPetFood: 'Ce n\'est pas de la nourriture pour animaux',
+    notPetFood: "Ce n'est pas de la nourriture pour animaux",
     notPetFoodMessage: 'Ce produit ne semble pas être de la nourriture pour chats ou chiens.',
 
     // Footer
@@ -321,7 +329,8 @@ const translations = {
     sectionConcerns: 'Preocupaciones',
     sectionAllergyAlert: 'Alerta de alergia',
     sectionContainsAllergens: 'Contiene alérgenos comunes',
-    noQualityIndicators: 'No se encontraron indicadores de calidad específicos en la lista de ingredientes.',
+    noQualityIndicators:
+      'No se encontraron indicadores de calidad específicos en la lista de ingredientes.',
 
     // Life stages
     lifeStagePuppy: 'Cachorro',
@@ -358,13 +367,17 @@ const translations = {
 
     // Onboarding
     onboardingWelcomeTitle: '¡Bienvenido a NicheFood!',
-    onboardingWelcomeText: 'Tu compañero inteligente para elegir la mejor comida para tus mascotas.',
+    onboardingWelcomeText:
+      'Tu compañero inteligente para elegir la mejor comida para tus mascotas.',
     onboardingScanTitle: 'Escanea cualquier alimento',
-    onboardingScanText: 'Apunta tu cámara a un código de barras para analizar ingredientes y obtener una puntuación.',
+    onboardingScanText:
+      'Apunta tu cámara a un código de barras para analizar ingredientes y obtener una puntuación.',
     onboardingPetsTitle: 'Añade tus mascotas',
-    onboardingPetsText: 'Crea perfiles para tus mascotas para recibir alertas de alérgenos personalizadas.',
+    onboardingPetsText:
+      'Crea perfiles para tus mascotas para recibir alertas de alérgenos personalizadas.',
     onboardingReadyTitle: '¡Todo listo!',
-    onboardingReadyText: 'Empieza a escanear para descubrir qué contiene realmente la comida de tu mascota.',
+    onboardingReadyText:
+      'Empieza a escanear para descubrir qué contiene realmente la comida de tu mascota.',
     skip: 'Saltar',
     next: 'Siguiente',
     getStarted: 'Empezar',
@@ -372,7 +385,8 @@ const translations = {
     // Errors
     errorCameraTitle: 'Error de cámara',
     errorPermissionTitle: 'Acceso a cámara denegado',
-    errorPermissionMessage: 'NicheFood necesita acceso a la cámara para escanear códigos de barras.',
+    errorPermissionMessage:
+      'NicheFood necesita acceso a la cámara para escanear códigos de barras.',
     errorNoCameraTitle: 'No se encontró cámara',
     errorNoCameraMessage: 'No se pudo detectar una cámara en este dispositivo.',
     errorInUseTitle: 'Cámara en uso',
@@ -497,11 +511,14 @@ const translations = {
     onboardingWelcomeTitle: 'Willkommen bei NicheFood!',
     onboardingWelcomeText: 'Ihr intelligenter Begleiter für die beste Tiernahrung.',
     onboardingScanTitle: 'Scannen Sie jedes Tierfutter',
-    onboardingScanText: 'Richten Sie Ihre Kamera auf einen Barcode, um Zutaten zu analysieren und eine Bewertung zu erhalten.',
+    onboardingScanText:
+      'Richten Sie Ihre Kamera auf einen Barcode, um Zutaten zu analysieren und eine Bewertung zu erhalten.',
     onboardingPetsTitle: 'Fügen Sie Ihre Haustiere hinzu',
-    onboardingPetsText: 'Erstellen Sie Profile für Ihre Haustiere für personalisierte Allergen-Warnungen.',
+    onboardingPetsText:
+      'Erstellen Sie Profile für Ihre Haustiere für personalisierte Allergen-Warnungen.',
     onboardingReadyTitle: 'Alles bereit!',
-    onboardingReadyText: 'Beginnen Sie mit dem Scannen, um zu entdecken, was wirklich im Futter Ihres Haustieres steckt.',
+    onboardingReadyText:
+      'Beginnen Sie mit dem Scannen, um zu entdecken, was wirklich im Futter Ihres Haustieres steckt.',
     skip: 'Überspringen',
     next: 'Weiter',
     getStarted: 'Loslegen',

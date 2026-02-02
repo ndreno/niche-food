@@ -203,7 +203,7 @@ function handleScannerError(error) {
     suggestions = [
       'Click the camera icon in your browser address bar',
       'Go to browser Settings → Privacy → Camera',
-      'Allow camera access for this site, then refresh'
+      'Allow camera access for this site, then refresh',
     ];
   } else if (error.message.includes('NotFound') || error.message.includes('no video')) {
     errorType = 'no-camera';
@@ -212,7 +212,7 @@ function handleScannerError(error) {
     suggestions = [
       'Make sure your device has a camera',
       'Check if another app is using the camera',
-      'Try using a different browser'
+      'Try using a different browser',
     ];
   } else if (error.message.includes('NotReadable') || error.message.includes('in use')) {
     errorType = 'in-use';
@@ -221,13 +221,13 @@ function handleScannerError(error) {
     suggestions = [
       'Close other apps that might be using the camera',
       'Close other browser tabs with camera access',
-      'Restart your browser and try again'
+      'Restart your browser and try again',
     ];
   } else {
     suggestions = [
       'Refresh the page and try again',
       'Try a different browser',
-      'Check if your camera is working in other apps'
+      'Check if your camera is working in other apps',
     ];
   }
 
@@ -395,16 +395,20 @@ function showError(message) {
     suggestions = [
       'Double-check the barcode and try scanning again',
       'The product may be new or region-specific',
-      'Consider adding it to OpenFoodFacts.org'
+      'Consider adding it to OpenFoodFacts.org',
     ];
-  } else if (message.includes('network') || message.includes('fetch') || message.includes('Failed to fetch')) {
+  } else if (
+    message.includes('network') ||
+    message.includes('fetch') ||
+    message.includes('Failed to fetch')
+  ) {
     errorType = 'network';
     title = 'Connection Error';
     message = 'Could not connect to the product database.';
     suggestions = [
       'Check your internet connection',
       'Try again in a few moments',
-      'The service may be temporarily unavailable'
+      'The service may be temporarily unavailable',
     ];
   } else if (message.includes('timeout')) {
     errorType = 'timeout';
@@ -413,13 +417,13 @@ function showError(message) {
     suggestions = [
       'Check your internet connection',
       'Try scanning again',
-      'The server may be experiencing high traffic'
+      'The server may be experiencing high traffic',
     ];
   } else {
     suggestions = [
       'Try scanning the barcode again',
       'Refresh the page and retry',
-      'Check if the barcode is clearly visible'
+      'Check if the barcode is clearly visible',
     ];
   }
 
@@ -428,14 +432,14 @@ function showError(message) {
 
 function showErrorWithSuggestions(title, message, suggestions, errorType) {
   const icons = {
-    'permission': '🔒',
+    permission: '🔒',
     'no-camera': '📷',
     'in-use': '⚠️',
     'not-found': '🔍',
-    'network': '📡',
-    'timeout': '⏱️',
-    'camera': '📷',
-    'generic': '❌'
+    network: '📡',
+    timeout: '⏱️',
+    camera: '📷',
+    generic: '❌',
   };
 
   const icon = icons[errorType] || icons.generic;
@@ -448,7 +452,7 @@ function showErrorWithSuggestions(title, message, suggestions, errorType) {
       <div class="error-suggestion">
         <div class="error-suggestion-title">What you can try:</div>
         <ul class="error-suggestion-list">
-          ${suggestions.map(s => `<li>${s}</li>`).join('')}
+          ${suggestions.map((s) => `<li>${s}</li>`).join('')}
         </ul>
       </div>
       <div class="error-actions">
