@@ -23,6 +23,16 @@ const loadingElement = document.getElementById('loading');
 const scanAnimation = document.querySelector('.scan-animation');
 const videoWrapper = document.querySelector('.video-wrapper');
 
+// ===== Utility Functions =====
+function escapeHtml(str) {
+  if (!str) {
+    return '';
+  }
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
 // ===== Global Variables =====
 let currentDeviceId = null;
 let facingMode = 'environment'; // Default to rear camera
@@ -239,7 +249,12 @@ async function fetchProductData(barcode) {
   try {
     loadingElement.style.display = 'block';
 
-    const response = await fetch(`https://world.openfoodfacts.org/api/v0/product/${barcode}.json`);
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
+    const response = await fetch(`https://world.openfoodfacts.org/api/v0/product/${barcode}.json`, {
+      signal: controller.signal,
+    });
+    clearTimeout(timeout);
     const data = await response.json();
 
     if (data.status === 0) {
@@ -277,7 +292,7 @@ async function fetchProductData(barcode) {
     }
   } catch (error) {
     console.error('Fetch error:', error);
-    showError(error.message);
+    showError(error.name === 'AbortError' ? 'Request timed out' : error.message);
   } finally {
     loadingElement.style.display = 'none';
     resultContainer.style.display = 'block';
@@ -302,13 +317,13 @@ function displayProductInfo(product) {
 
   productInfoElement.innerHTML = `
     <div class="product-header">
-      <h3>${product.product_name || 'Unknown Product'}${productLabel}</h3>
-      ${product.image_url ? `<img src="${product.image_url}" alt="Product" loading="lazy">` : ''}
+      <h3>${escapeHtml(product.product_name) || 'Unknown Product'}${escapeHtml(productLabel)}</h3>
+      ${product.image_url ? `<img src="${escapeHtml(product.image_url)}" alt="Product" loading="lazy">` : ''}
     </div>
-    <p><strong>Brand:</strong> ${product.brands || 'Unknown'}</p>
-    <p><strong>Category:</strong> ${product.categories || 'Unknown'}</p>
-    <p><strong>Ingredients:</strong> ${product.ingredients_text || 'Not available'}</p>
-    ${product.nutriscore_data ? `<p><strong>Nutri-Score:</strong> ${product.nutriscore_data.grade || 'N/A'}</p>` : ''}
+    <p><strong>Brand:</strong> ${escapeHtml(product.brands) || 'Unknown'}</p>
+    <p><strong>Category:</strong> ${escapeHtml(product.categories) || 'Unknown'}</p>
+    <p><strong>Ingredients:</strong> ${escapeHtml(product.ingredients_text) || 'Not available'}</p>
+    ${product.nutriscore_data ? `<p><strong>Nutri-Score:</strong> ${escapeHtml(product.nutriscore_data.grade) || 'N/A'}</p>` : ''}
   `;
 }
 
@@ -507,16 +522,16 @@ function renderHistory() {
   historyList.innerHTML = history
     .map(
       (item) => `
-    <div class="history-item" data-id="${item.id}">
-      ${item.productImage ? `<img src="${item.productImage}" alt="${item.productName}">` : '<div class="history-item-img-placeholder"></div>'}
+    <div class="history-item" data-id="${escapeHtml(item.id)}">
+      ${item.productImage ? `<img src="${escapeHtml(item.productImage)}" alt="${escapeHtml(item.productName)}">` : '<div class="history-item-img-placeholder"></div>'}
       <div class="history-item-info">
-        <div class="history-item-name">${item.productName}</div>
+        <div class="history-item-name">${escapeHtml(item.productName)}</div>
         <div class="history-item-meta">
-          ${item.productBrand ? item.productBrand + ' • ' : ''}${formatDate(item.scannedAt)}
+          ${item.productBrand ? escapeHtml(item.productBrand) + ' • ' : ''}${formatDate(item.scannedAt)}
         </div>
       </div>
-      ${item.score !== null ? `<div class="history-item-score ${item.rating?.toLowerCase() || ''}">${item.score}</div>` : ''}
-      <button class="favorite-btn ${item.isFavorite ? 'active' : ''}" data-id="${item.id}">
+      ${item.score !== null ? `<div class="history-item-score ${escapeHtml(item.rating?.toLowerCase()) || ''}">${item.score}</div>` : ''}
+      <button class="favorite-btn ${item.isFavorite ? 'active' : ''}" data-id="${escapeHtml(item.id)}">
         ${item.isFavorite ? '⭐' : '☆'}
       </button>
     </div>
@@ -581,23 +596,23 @@ function renderSettings() {
   const darkModeToggle = document.getElementById('darkModeToggle');
   if (darkModeToggle) {
     darkModeToggle.checked = settings.darkMode;
-    darkModeToggle.addEventListener('change', () => {
+    darkModeToggle.onchange = () => {
       import('./storage.js').then((storage) => {
         storage.updateSettings({ darkMode: darkModeToggle.checked });
         applyDarkMode(darkModeToggle.checked);
       });
-    });
+    };
   }
 
   // Vibration toggle
   const vibrationToggle = document.getElementById('vibrationToggle');
   if (vibrationToggle) {
     vibrationToggle.checked = settings.vibrationEnabled !== false;
-    vibrationToggle.addEventListener('change', () => {
+    vibrationToggle.onchange = () => {
       import('./storage.js').then((storage) => {
         storage.updateSettings({ vibrationEnabled: vibrationToggle.checked });
       });
-    });
+    };
   }
 
   // Clear history button
@@ -648,12 +663,12 @@ function renderPetsList() {
     petsList.innerHTML = pets
       .map(
         (pet) => `
-      <div class="pet-item ${activePet?.id === pet.id ? 'active' : ''}" data-id="${pet.id}">
+      <div class="pet-item ${activePet?.id === pet.id ? 'active' : ''}" data-id="${escapeHtml(pet.id)}">
         <span class="pet-item-icon">${pet.species === 'cat' ? '🐱' : '🐕'}</span>
         <div class="pet-item-info">
-          <div class="pet-item-name">${pet.name}</div>
+          <div class="pet-item-name">${escapeHtml(pet.name)}</div>
           <div class="pet-item-details">
-            ${pet.breed || pet.species}
+            ${escapeHtml(pet.breed || pet.species)}
             ${pet.allergies?.length ? ' • ' + pet.allergies.length + ' allergies' : ''}
           </div>
         </div>
